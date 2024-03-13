@@ -1,0 +1,184 @@
+[
+    {
+        "image": "./data/Xray/3436_1.png",
+        "fluency": 5.0,
+        "relevance": 2.0,
+        "completeness": 2.0,
+        "proficiency": 2.0
+    },
+    {
+        "image": "./data/Xray/1220_1.png",
+        "fluency": 5.0,
+        "relevance": 2.0,
+        "completeness": 1.0,
+        "proficiency": 1.0
+    },
+    {
+        "image": "./data/Xray/3437_1.png",
+        "fluency": 5.0,
+        "relevance": 2.0,
+        "completeness": 2.0,
+        "proficiency": 3.0
+    },
+    {
+        "image": "./data/Xray/1234_1.png",
+        "fluency": 5.0,
+        "relevance": 2.0,
+        "completeness": 3.0,
+        "proficiency": 3.0
+    },
+    {
+        "image": "./data/Xray/3345_1.png",
+        "fluency": 5.0,
+        "relevance": 2.0,
+        "completeness": 2.0,
+        "proficiency": 2.0
+    },
+    {
+        "image": "./data/Xray/950_1.png",
+        "fluency": 5.0,
+        "relevance": 1.0,
+        "completeness": 1.0,
+        "proficiency": 1.0
+    },
+    {
+        "image": "./data/Xray/2067_1.png",
+        "fluency": 5.0,
+        "relevance": 1.0,
+        "completeness": 1.0,
+        "proficiency": 4.0
+    },
+    {
+        "image": "./data/Xray/3386_2.png",
+        "fluency": 5.0,
+        "relevance": 3.0,
+        "completeness": 2.0,
+        "proficiency": 2.0
+    },
+    {
+        "image": "./data/Xray/2098_2.png",
+        "fluency": 5.0,
+        "relevance": 2.0,
+        "completeness": 3.0,
+        "proficiency": 2.0
+    },
+    {
+        "image": "./data/Xray/3635_2.png",
+        "fluency": 5.0,
+        "relevance": 3.0,
+        "completeness": 2.0,
+        "proficiency": 2.0
+    },
+    {
+        "image": "./data/Xray/1022_2.png",
+        "fluency": 5.0,
+        "relevance": 2.0,
+        "completeness": 2.0,
+        "proficiency": 3.0
+    },
+    {
+        "image": "./data/Xray/2259_2.png",
+        "fluency": 5.0,
+        "relevance": 2.0,
+        "completeness": 1.0,
+        "proficiency": 2.0
+    },
+    {
+        "image": "./data/Xray/3621_1.png",
+        "fluency": 5.0,
+        "relevance": 2.0,
+        "completeness": 2.0,
+        "proficiency": 2.0
+    },
+    {
+        "image": "./data/Xray/3609_1.png",
+        "fluency": 5.0,
+        "relevance": 2.0,
+        "completeness": 2.0,
+        "proficiency": 4.0
+    },
+    {
+        "image": "./data/Xray/3190_1.png",
+        "fluency": 5.0,
+        "relevance": 2.0,
+        "completeness": 1.0,
+        "proficiency": 1.0
+    },
+    {
+        "image": "./data/Xray/561_1.png",
+        "fluency": 5.0,
+        "relevance": 3.0,
+        "completeness": 4.0,
+        "proficiency": 3.0
+    },
+    {
+        "image": "./data/Xray/1630_2.png",
+        "fluency": 5.0,
+        "relevance": 2.0,
+        "completeness": 2.0,
+        "proficiency": 2.0
+    },
+    {
+        "image": "./data/Xray/2339_1.png",
+        "fluency": 5.0,
+        "relevance": 2.0,
+        "completeness": 2.0,
+        "proficiency": 4.0
+    },
+    {
+        "image": "./data/Xray/3755_2.png",
+        "fluency": 5.0,
+        "relevance": 2.0,
+        "completeness": 2.0,
+        "proficiency": 2.0
+    },
+    {
+        "image": "./data/Xray/1432_2.png",
+        "fluency": 5.0,
+        "relevance": 2.0,
+        "completeness": 3.0,
+        "proficiency": 3.0
+    },
+    {
+        "image": "./data/Xray/2649_1.png",
+        "fluency": 5.0,
+        "relevance": 2.0,
+        "completeness": 2.0,
+        "proficiency": 3.0
+    },
+    {
+        "image": "./data/Xray/165_2.png",
+        "fluency": 5.0,
+        "relevance": 2.0,
+        "completeness": 2.0,
+        "proficiency": 3.0
+    },
+    {
+        "image": "./data/Xray/3725_1.png",
+        "fluency": 5.0,
+        "relevance": 2.0,
+        "completeness": 2.0,
+        "proficiency": 3.0
+    },
+    {
+        "image": "./data/Xray/1233_2.png",
+        "fluency": 5.0,
+        "relevance": 2.0,
+        "completeness": 2.0,
+        "proficiency": 3.0
+    },
+    {
+        "image": "./data/Xray/1640_2.png",
+        "fluency": 5.0,
+        "relevance": 2.0,
+        "completeness": 2.0,
+        "proficiency": 3.0
+    },
+    {
+        "image": "./data/Xray/3350_2.png",
+        "fluency": 5.0,
+        "relevance": 2.0,
+        "completeness": 2.0,
+        "proficiency": 4.0
+    }
+]
