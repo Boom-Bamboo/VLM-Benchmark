@@ -1,0 +1,44 @@
+[
+    {
+        "id": 0,
+        "fluency": 2.7,
+        "relevance": 2.7,
+        "completeness": 3.0,
+        "proficiency": 3.0
+    },
+    {
+        "id": 1,
+        "fluency": 4.0,
+        "relevance": 5.0,
+        "completeness": 4.7,
+        "proficiency": 4.0
+    },
+    {
+        "id": 2,
+        "fluency": 3.7,
+        "relevance": 4.0,
+        "completeness": 4.0,
+        "proficiency": 3.3
+    },
+    {
+        "id": 3,
+        "fluency": 3.0,
+        "relevance": 4.0,
+        "completeness": 3.0,
+        "proficiency": 3.0
+    },
+    {
+        "id": 4,
+        "fluency": 4.0,
+        "relevance": 4.5,
+        "completeness": 4.5,
+        "proficiency": 4.0
+    },
+    {
+        "id": 5,
+        "fluency": 4.3,
+        "relevance": 4.7,
+        "completeness": 4.0,
+        "proficiency": 4.0
+    }
+]
