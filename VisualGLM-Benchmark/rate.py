@@ -1,6 +1,7 @@
 import json 
 import openai
 import re
+import time
 from tqdm import tqdm
 
 openai.api_key = "***"
@@ -8,35 +9,52 @@ openai.api_type = "***"
 openai.api_base = "***"
 openai.api_version = "***"
 
-background = f"You are an AI evaluator specializing in assessing the quality of answers provided by other language models . Your primary goal is to rate the answers based on their fluency , relevance , completeness , proficiency in medicine . Use the following scales to evaluate each criterion :\nFluency :\n1: Completely broken and unreadable sentence pieces\n2: Mostly broken with few readable tokens\n3: Moderately fluent but with limited vocabulary\n4: Mostly coherent in expressing complex subjects\n5: Human - level fluency\n\nRelevance :\n1: Completely unrelated to the question\n2: Some relation to the question , but mostly off - topic\n3: Relevant , but lacking focus or key details\n4: Highly relevant , addressing the main aspects of the question\n5: Directly relevant and precisely targeted to the question\n\nCompleteness :\n1: Extremely incomplete\n2: Almost incomplete with limited information\n3: Moderate completeness with some information\n4: Mostly complete with most of the information displayed\n5: Fully complete with all information presented\n\nProficiency in medicine :\n1: Using plain languages with no medical terminology .\n2: Equipped with some medical knowledge but lacking in - depth details\n3: Conveying moderately complex medical information with clarity\n4: Showing solid grasp of medical terminology but having some minor mistakes in detail\n5: Fully correct in all presented medical knowledge\n"
-rate = f"Based on the scales, You directly give the ratings for fluency, relevance, completeness, and proficiency in medicine."
+background = f"您是一位AI评估员，专门评估其他语言模型提供的回答质量。您的目标是根据模型回答的流畅性、相关性、完整性和医学知识专业性四个标准对模型回答进行评分。请使用以下测评细则对每个标准进行评估\n流畅性：\n1分：完全破碎且无法阅读的句子片段\n2分：大部分破碎，只有少量可读的词\n3分：有一定流利度，但词汇有限\n4分：在表达复杂主题方面基本上是流畅的\n5分：人类水平流利度\n\n相关性：\n1分：与问题完全无关\n2分：与问题有一定关系，但主要是离题的\n3分：相关，但缺乏重点或关键细节\n4分：高度相关，解决了大部分问题\n5分：直接相关，准确地针对了问题\n\n完整性：\n1分：极度不完整\n2分：几乎不完整，信息有限\n3分：有一定的完整性，有一些信息\n4分：大部分信息都已显示\n5分：所有信息都已呈现\n\n医学知识专业性：\n1分：使用简单明了的语言，没有医学术语\n2分：具有一些医学知识，但缺乏深入细节\n3分：清晰地传达了一定的复杂医学信息\n4分：对医学术语有扎实的认识，但有些细节错误\n5分：在所有呈现的医学知识上都是完全正确的\n"
+rate = f"根据测评细则，给出流畅性、相关性、完整性和医学知识专业性的评分。NO COMMENTS, NO ACKNOWLEDGEMENTS."
+
+output_format = """
+以JSON格式输出。
+1. fluency字段的取值为float类型，表示模型回答的流畅性分数，保留小数点后一位
+2. relevance字段的取值为float类型，表示模型回答的相关性分数，保留小数点后一位
+3. completeness字段的取值为float类型，表示模型回答的完整性分数，保留小数点后一位
+4. proficiency字段的取值为float类型，表示模型回答的医学知识专业性分数，保留小数点后一位
+"""
 
 with open('output.json', 'r', encoding='utf-8') as file:
     data = json.load(file)
 results = []
 
 for i in tqdm(range(len(data))):
+    # time.sleep(3)
     image = data[i]['image']
     solution = data[i]['standard_answer']
     model_answer = data[i]['model_answer']
     question = data[i]['prompt']
     
-    analyze = f"You are provided with the following information:\n\n- a question:\n[question]\n{question}\n[end of question]\n\n- the standard answer to the question:\n[standard answer]\n{solution}\n[end of standard answer]\n\n- the model's answer to the question:\n[model's answer]\n{model_answer}\n[end of model's answer]\n"
+    analyze = f"您将获得以下信息：\n\n问题（模型需要回答的问题）：\n{question}\n\n参考答案（该题目的参考答案，作为对模型回答打分的依据）：\n{solution}\n\n模型回答（测评对象，其他模型根据问题给出的回答）：\n{model_answer}\n\n"
     
     response = openai.ChatCompletion.create(
         engine = "gpt-4",
         messages = [
             {"role": "system", "content": background},
-            {"role": "user", "content": analyze + rate}
+            {"role": "user", "content": rate + analyze + output_format}
         ],
         max_tokens = 500
     )
-    ratings = response['choices'][0]['message']['content']
-    match = re.findall(r'\d+', ratings)
-    fluency_rating = float(match[0])
-    relevance_rating = float(match[1])
-    completeness_rating = float(match[2])
-    proficiency_rating = float(match[3])
+    if response['choices'][0]['message']['content'] == None:
+        fluency_rating = 1.0
+        relevance_rating = 1.0
+        completeness_rating = 1.0
+        proficiency_rating = 1.0
+
+    else:
+        ratings = response['choices'][0]['message']['content']
+
+    ratings = json.loads(ratings)
+    fluency_rating = ratings['fluency']
+    relevance_rating = ratings['relevance']
+    completeness_rating = ratings['completeness']
+    proficiency_rating = ratings['proficiency']
 
     info = {
             "image": image,
@@ -46,6 +64,7 @@ for i in tqdm(range(len(data))):
             "proficiency": proficiency_rating
         }
     results.append(info)
+    
 
-with open('ratings.json', 'w', encoding="utf-8") as f1:
+with open('ratings_new.json', 'w', encoding="utf-8") as f1:
     json.dump(results, f1, ensure_ascii=False, indent=4)
