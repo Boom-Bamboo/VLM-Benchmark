@@ -25,47 +25,62 @@ with open('output.json', 'r', encoding='utf-8') as file:
 results = []
 
 for i in tqdm(range(len(data))):
-    # time.sleep(3)
-    image = data[i]['image']
-    solution = data[i]['standard_answer']
-    model_answer = data[i]['model_answer']
-    question = data[i]['prompt']
-    
-    analyze = f"您将获得以下信息：\n\n问题（模型需要回答的问题）：\n{question}\n\n参考答案（该题目的参考答案，作为对模型回答打分的依据）：\n{solution}\n\n模型回答（测评对象，其他模型根据问题给出的回答）：\n{model_answer}\n\n"
-    
-    response = openai.ChatCompletion.create(
-        engine = "gpt-4",
-        messages = [
-            {"role": "system", "content": background},
-            {"role": "user", "content": rate + analyze + output_format}
-        ],
-        max_tokens = 500
-    )
-    if response['choices'][0]['message']['content'] == None:
-        fluency_rating = 1.0
-        relevance_rating = 1.0
-        completeness_rating = 1.0
-        proficiency_rating = 1.0
+    eval_id = data[i]['id']
+    description = data[i]['description']
+    qa_pairs = data[i]['QA_pairs']
+    responses = []
+    fluency_ratings = 0.0
+    relevance_ratings = 0.0
+    completeness_ratings = 0.0
+    proficiency_ratings = 0.0
 
-    else:
-        ratings = response['choices'][0]['message']['content']
+    for j in tqdm(range(len(qa_pairs))):
+        question = qa_pairs[j]['question']
+        solution = qa_pairs[j]['answer']
+        model_answer = qa_pairs[j]['model_answer']
+        analyze = f"您将获得以下信息：\n\n问题（模型需要回答的问题）：\n{question}\n\n参考答案（该题目的参考答案，作为对模型回答打分的依据）：\n{solution}\n\n模型回答（测评对象，其他模型根据问题给出的回答）：\n{model_answer}\n\n"
+    
+        response = openai.ChatCompletion.create(
+            engine = "gpt-4",
+            messages = [
+                {"role": "system", "content": background},
+                {"role": "user", "content": rate + analyze + output_format}
+            ],
+            max_tokens = 500
+        )
+        if response['choices'][0]['message']['content'] == None:
+            fluency_rating = 1.0
+            relevance_rating = 1.0
+            completeness_rating = 1.0
+            proficiency_rating = 1.0
+    
+        else:
+            ratings = response['choices'][0]['message']['content']
+    
+        ratings = json.loads(ratings)
+        fluency_rating = ratings['fluency']
+        relevance_rating = ratings['relevance']
+        completeness_rating = ratings['completeness']
+        proficiency_rating = ratings['proficiency']
+        
+        fluency_ratings = fluency_rating + fluency_ratings
+        relevance_ratings = relevance_rating + relevance_ratings
+        completeness_ratings = completeness_rating + completeness_ratings
+        proficiency_ratings = proficiency_rating + proficiency_ratings
 
-    ratings = json.loads(ratings)
-    fluency_rating = ratings['fluency']
-    relevance_rating = ratings['relevance']
-    completeness_rating = ratings['completeness']
-    proficiency_rating = ratings['proficiency']
+    fluency_ratings = round(fluency_ratings/len(qa_pairs),1)
+    relevance_ratings = round(relevance_ratings/len(qa_pairs),1)
+    completeness_ratings = round(completeness_ratings/len(qa_pairs),1)
+    proficiency_ratings = round(proficiency_ratings/len(qa_pairs),1)
 
     info = {
-            "image": image,
-            "fluency": fluency_rating,
-            "relevance": relevance_rating,
-            "completeness": completeness_rating,
-            "proficiency": proficiency_rating
+            "id": eval_id,
+            "fluency": fluency_ratings,
+            "relevance": relevance_ratings,
+            "completeness": completeness_ratings,
+            "proficiency": proficiency_ratings
         }
     results.append(info)
-    
 
 with open('ratings.json', 'w', encoding="utf-8") as f1:
     json.dump(results, f1, ensure_ascii=False, indent=4)
-
